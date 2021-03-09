@@ -50,6 +50,9 @@ public class SwiftFacebookAppEventsPlugin: NSObject, FlutterPlugin {
         case "getAnonymousId":
             handleHandleGetAnonymousId(call, result: result)
             break
+        case "setAdvertiserTracking":
+            handleSetAdvertiserTracking(call, result: result)
+            break
         default:
             result(FlutterMethodNotImplemented)
         }
@@ -164,6 +167,13 @@ public class SwiftFacebookAppEventsPlugin: NSObject, FlutterPlugin {
         let parameters = arguments["parameters"] as? [String: Any] ?? [String: Any]()
         AppEvents.logPurchase(amount, currency: currency, parameters: parameters)
 
+        result(nil)
+    }
+
+    private func handleSetAdvertiserTracking(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        let arguments = call.arguments as? [String: Any] ?? [String: Any]()
+        let enabled = arguments["enabled"] as! Bool
+        Settings.setAdvertiserTrackingEnabled(enabled)        
         result(nil)
     }
 }
